@@ -98,6 +98,14 @@ button#prevMonth, button#nextMonth {
     letter-spacing: 0.1em;
 }
 
+.day-header:first-child {
+    color: #ff5e57; /* Sunday Red */
+}
+
+.day-header:last-child {
+    color: #54a0ff; /* Saturday Blue */
+}
+
 .calendar-body {
     display: contents;
 }
@@ -110,6 +118,14 @@ button#prevMonth, button#nextMonth {
     transition: all 0.3s ease;
     position: relative;
     border: none;
+}
+
+.calendar-day.holiday {
+    color: #ff5e57;
+}
+
+.calendar-day.saturday {
+    color: #54a0ff;
 }
 
 .calendar-day:hover {

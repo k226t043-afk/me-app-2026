@@ -16,6 +16,23 @@ let selectedDateKey = '';
 // LocalStorage key prefix
 const STORAGE_PREFIX = 'calendar_event_';
 
+// Simple Japanese holiday check (Fixed dates)
+function isHoliday(year, month, day) {
+    const fixedHolidays = [
+        '1-1',   // 元日
+        '2-11',  // 建国記念の日
+        '2-23',  // 天皇誕生日
+        '4-29',  // 昭和の日
+        '5-3',   // 憲法記念日
+        '5-4',   // みどりの日
+        '5-5',   // こどもの日
+        '8-11',  // 山の日
+        '11-3',  // 文化の日
+        '11-23', // 勤労感謝の日
+    ];
+    return fixedHolidays.includes(`${month + 1}-${day}`);
+}
+
 function renderCalendar() {
     calendarBody.innerHTML = '';
     const year = currentDate.getFullYear();
@@ -41,6 +58,14 @@ function renderCalendar() {
 
         const dateKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
         
+        // Day of the week
+        const dayOfWeek = new Date(year, month, day).getDay();
+        if (dayOfWeek === 0 || isHoliday(year, month, day)) {
+            dayDiv.classList.add('holiday');
+        } else if (dayOfWeek === 6) {
+            dayDiv.classList.add('saturday');
+        }
+
         // Check if it's today
         const today = new Date();
         if (year === today.getFullYear() && month === today.getMonth() && day === today.getDate()) {
