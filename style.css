@@ -1,15 +1,17 @@
 :root {
-    --primary-color: #4a90e2;
-    --bg-color: #f4f7f6;
-    --text-color: #333;
+    --primary-color: #2c3e50;
+    --accent-color: #a89166; /* Muted gold/sand */
+    --bg-color: #f8f9fa;
+    --text-color: #2c3e50;
+    --text-muted: #7f8c8d;
     --white: #ffffff;
-    --border-color: #ddd;
-    --today-bg: #e1f5fe;
-    --has-event-bg: #fff9c4;
+    --border-color: #e0e0e0;
+    --today-bg: #fdfaf5;
+    --today-border: #a89166;
 }
 
 body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Optima', 'Candara', 'Noto Sans JP', serif;
     background-color: var(--bg-color);
     color: var(--text-color);
     margin: 0;
@@ -17,57 +19,71 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    letter-spacing: 0.02em;
 }
 
 .container {
-    width: 90%;
-    max-width: 800px;
+    width: 95%;
+    max-width: 900px;
     background: var(--white);
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
 }
 
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 20px;
 }
 
 header h1 {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
 }
 
 button {
     cursor: pointer;
-    background: var(--primary-color);
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-    font-size: 1rem;
-    transition: opacity 0.2s;
+    background: transparent;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    padding: 10px 20px;
+    border-radius: 2px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 button:hover {
-    opacity: 0.8;
+    background: var(--primary-color);
+    color: var(--white);
 }
 
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 1px;
-    background-color: var(--border-color);
-    border: 1px solid var(--border-color);
+    gap: 0;
+    border-top: 1px solid var(--border-color);
+    border-left: 1px solid var(--border-color);
 }
 
 .day-header {
-    background-color: #eee;
-    padding: 10px;
+    background-color: var(--white);
+    padding: 15px;
     text-align: center;
-    font-weight: bold;
+    font-weight: 400;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    border-right: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
 }
 
 .calendar-body {
@@ -76,15 +92,17 @@ button:hover {
 
 .calendar-day {
     background-color: var(--white);
-    min-height: 100px;
-    padding: 10px;
+    min-height: 120px;
+    padding: 15px;
     cursor: pointer;
     position: relative;
-    transition: background-color 0.2s;
+    transition: background-color 0.3s ease;
+    border-right: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
 }
 
 .calendar-day:hover {
-    background-color: #f0f0f0;
+    background-color: #fcfcfc;
 }
 
 .calendar-day.empty {
@@ -96,22 +114,36 @@ button:hover {
     background-color: var(--today-bg);
 }
 
-.calendar-day.has-event::after {
-    content: '•';
-    color: var(--primary-color);
+.calendar-day.today::before {
+    content: '';
     position: absolute;
-    bottom: 5px;
-    right: 10px;
-    font-size: 1.5rem;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--today-border);
+}
+
+.calendar-day.has-event::after {
+    content: '';
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 6px;
+    height: 6px;
+    background-color: var(--accent-color);
+    border-radius: 50%;
 }
 
 .event-summary {
-    font-size: 0.8rem;
-    color: #666;
-    margin-top: 5px;
-    white-space: nowrap;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 10px;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
     overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 /* Modal Styles */
@@ -123,59 +155,96 @@ button:hover {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(44, 62, 80, 0.4);
+    backdrop-filter: blur(2px);
 }
 
 .modal-content {
     background-color: var(--white);
-    margin: 15% auto;
-    padding: 20px;
-    border-radius: 8px;
-    width: 80%;
-    max-width: 400px;
+    margin: 10% auto;
+    padding: 40px;
+    border-radius: 4px;
+    width: 90%;
+    max-width: 450px;
     position: relative;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.1);
 }
 
 .close-button {
     position: absolute;
-    right: 20px;
-    top: 10px;
-    font-size: 28px;
-    font-weight: bold;
+    right: 25px;
+    top: 20px;
+    font-size: 24px;
+    color: var(--text-muted);
     cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close-button:hover {
+    color: var(--primary-color);
+}
+
+h2#modalDate {
+    font-weight: 300;
+    font-size: 1.2rem;
+    margin-top: 0;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
 }
 
 textarea {
     width: 100%;
-    height: 100px;
-    margin: 15px 0;
-    padding: 10px;
+    height: 150px;
+    margin: 20px 0;
+    padding: 15px;
     box-sizing: border-box;
     border: 1px solid var(--border-color);
-    border-radius: 4px;
+    border-radius: 2px;
     resize: none;
+    font-family: inherit;
+    font-size: 1rem;
+    color: var(--text-color);
+    background-color: #fdfdfd;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: var(--accent-color);
 }
 
 .modal-footer {
     display: flex;
-    justify-content: flex-end;
-    gap: 10px;
+    justify-content: space-between;
+    gap: 15px;
 }
 
 .delete-btn {
-    background-color: #e74c3c;
+    border-color: #dcdcdc;
+    color: #999;
+}
+
+.delete-btn:hover {
+    background-color: #f5f5f5;
+    color: #e74c3c;
+    border-color: #e74c3c;
 }
 
 .save-btn {
-    background-color: #2ecc71;
+    background-color: var(--primary-color);
+    color: var(--white);
+    flex-grow: 1;
 }
 
 @media (max-width: 600px) {
+    .container {
+        padding: 20px;
+    }
     .calendar-day {
-        min-height: 70px;
-        padding: 5px;
+        min-height: 80px;
+        padding: 10px;
     }
     header h1 {
-        font-size: 1.2rem;
+        font-size: 1.4rem;
     }
 }
