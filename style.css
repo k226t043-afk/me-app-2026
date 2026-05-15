@@ -1,17 +1,17 @@
 :root {
-    --primary-color: #2c3e50;
-    --accent-color: #a89166; /* Muted gold/sand */
-    --bg-color: #f8f9fa;
-    --text-color: #2c3e50;
-    --text-muted: #7f8c8d;
+    --primary-color: #6366f1; /* Modern Indigo */
+    --primary-hover: #4f46e5;
+    --accent-color: #f43f5e; /* Vibrant Rose */
+    --bg-color: #f1f5f9;
+    --text-color: #1e293b;
+    --text-muted: #64748b;
     --white: #ffffff;
-    --border-color: #e0e0e0;
-    --today-bg: #fdfaf5;
-    --today-border: #a89166;
+    --border-color: #e2e8f0;
+    --today-bg: #eef2ff;
 }
 
 body {
-    font-family: 'Optima', 'Candara', 'Noto Sans JP', serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
     margin: 0;
@@ -19,71 +19,73 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    letter-spacing: 0.02em;
 }
 
 .container {
     width: 95%;
-    max-width: 900px;
+    max-width: 950px;
     background: var(--white);
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    padding: 32px;
+    border-radius: 24px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 40px;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 20px;
+    margin-bottom: 32px;
 }
 
 header h1 {
     margin: 0;
-    font-size: 1.8rem;
-    font-weight: 300;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-color);
 }
 
 button {
     cursor: pointer;
-    background: transparent;
-    color: var(--primary-color);
-    border: 1px solid var(--primary-color);
-    padding: 10px 20px;
-    border-radius: 2px;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    background: var(--white);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 button:hover {
-    background: var(--primary-color);
-    color: var(--white);
+    background: var(--bg-color);
+    border-color: var(--text-muted);
+    transform: translateY(-1px);
+}
+
+button#prevMonth, button#nextMonth {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    justify-content: center;
 }
 
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 0;
-    border-top: 1px solid var(--border-color);
-    border-left: 1px solid var(--border-color);
+    gap: 8px;
 }
 
 .day-header {
-    background-color: var(--white);
-    padding: 15px;
+    padding: 12px;
     text-align: center;
-    font-weight: 400;
-    font-size: 0.8rem;
+    font-weight: 600;
+    font-size: 0.75rem;
     color: var(--text-muted);
     text-transform: uppercase;
-    border-right: 1px solid var(--border-color);
-    border-bottom: 1px solid var(--border-color);
+    letter-spacing: 0.05em;
 }
 
 .calendar-body {
@@ -92,58 +94,64 @@ button:hover {
 
 .calendar-day {
     background-color: var(--white);
-    min-height: 120px;
-    padding: 15px;
+    min-height: 110px;
+    padding: 12px;
     cursor: pointer;
-    position: relative;
-    transition: background-color 0.3s ease;
-    border-right: 1px solid var(--border-color);
-    border-bottom: 1px solid var(--border-color);
+    border-radius: 16px;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
 .calendar-day:hover {
-    background-color: #fcfcfc;
+    background-color: var(--bg-color);
+    border-color: var(--border-color);
+    transform: scale(1.02);
 }
 
 .calendar-day.empty {
-    background-color: #fafafa;
+    background-color: transparent;
     cursor: default;
+}
+
+.calendar-day.empty:hover {
+    transform: none;
+    border-color: transparent;
 }
 
 .calendar-day.today {
     background-color: var(--today-bg);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    font-weight: 700;
 }
 
-.calendar-day.today::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background-color: var(--today-border);
+.calendar-day.has-event {
+    border-color: var(--border-color);
 }
 
 .calendar-day.has-event::after {
     content: '';
-    position: absolute;
-    top: 15px;
-    right: 15px;
     width: 6px;
     height: 6px;
-    background-color: var(--accent-color);
+    background-color: var(--primary-color);
     border-radius: 50%;
+    margin-top: auto;
+    align-self: center;
 }
 
 .event-summary {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: var(--text-muted);
-    margin-top: 10px;
-    line-height: 1.4;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
+    background: #f8fafc;
+    padding: 4px 8px;
+    border-radius: 6px;
+    border-left: 3px solid var(--primary-color);
+    white-space: nowrap;
     overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* Modal Styles */
@@ -155,96 +163,124 @@ button:hover {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(44, 62, 80, 0.4);
-    backdrop-filter: blur(2px);
+    background-color: rgba(15, 23, 42, 0.3);
+    backdrop-filter: blur(8px);
+    animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 .modal-content {
     background-color: var(--white);
-    margin: 10% auto;
-    padding: 40px;
-    border-radius: 4px;
+    margin: 8% auto;
+    padding: 32px;
+    border-radius: 24px;
     width: 90%;
-    max-width: 450px;
+    max-width: 480px;
     position: relative;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
 
 .close-button {
     position: absolute;
-    right: 25px;
-    top: 20px;
-    font-size: 24px;
+    right: 24px;
+    top: 24px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--bg-color);
     color: var(--text-muted);
     cursor: pointer;
-    transition: color 0.2s;
+    transition: all 0.2s;
 }
 
 .close-button:hover {
-    color: var(--primary-color);
+    background: var(--border-color);
+    color: var(--text-color);
 }
 
 h2#modalDate {
-    font-weight: 300;
-    font-size: 1.2rem;
-    margin-top: 0;
-    color: var(--text-muted);
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 10px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0 0 24px 0;
 }
 
 textarea {
     width: 100%;
-    height: 150px;
-    margin: 20px 0;
-    padding: 15px;
+    height: 120px;
+    margin-bottom: 24px;
+    padding: 16px;
     box-sizing: border-box;
     border: 1px solid var(--border-color);
-    border-radius: 2px;
+    border-radius: 16px;
     resize: none;
     font-family: inherit;
     font-size: 1rem;
-    color: var(--text-color);
-    background-color: #fdfdfd;
+    transition: border-color 0.2s;
 }
 
 textarea:focus {
     outline: none;
-    border-color: var(--accent-color);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
 }
 
 .modal-footer {
     display: flex;
-    justify-content: space-between;
-    gap: 15px;
+    gap: 12px;
 }
 
 .delete-btn {
-    border-color: #dcdcdc;
-    color: #999;
+    background: var(--white);
+    color: #ef4444;
+    border-color: #fee2e2;
 }
 
 .delete-btn:hover {
-    background-color: #f5f5f5;
-    color: #e74c3c;
-    border-color: #e74c3c;
+    background: #fef2f2;
+    border-color: #ef4444;
 }
 
 .save-btn {
     background-color: var(--primary-color);
     color: var(--white);
     flex-grow: 1;
+    border: none;
+    padding: 12px;
 }
 
-@media (max-width: 600px) {
+.save-btn:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 640px) {
     .container {
-        padding: 20px;
+        padding: 16px;
+        border-radius: 16px;
+    }
+    .calendar-grid {
+        gap: 4px;
     }
     .calendar-day {
         min-height: 80px;
-        padding: 10px;
+        padding: 8px;
+        border-radius: 12px;
     }
     header h1 {
-        font-size: 1.4rem;
+        font-size: 1.25rem;
     }
 }
